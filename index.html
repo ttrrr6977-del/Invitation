@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Invitation</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Replace with your actual Public Key
+            emailjs.init("g7dPxlZeGAIFCQTB2");
+        })();
+    </script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background-color: white;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            border: 8px solid #fff;
+            outline: 2px solid #ffdde1;
+            box-sizing: border-box;
+        }
+
+        /* The Flower Decoration */
+        .card::before {
+            content: "🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            right: 0;
+            font-size: 20px;
+            letter-spacing: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .card::after {
+            content: "🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼";
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            font-size: 20px;
+            letter-spacing: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .side-flowers-left {
+            position: absolute;
+            left: -10px;
+            top: 50px;
+            bottom: 50px;
+            writing-mode: vertical-rl;
+            font-size: 20px;
+        }
+
+        .side-flowers-right {
+            position: absolute;
+            right: -10px;
+            top: 50px;
+            bottom: 50px;
+            writing-mode: vertical-rl;
+            font-size: 20px;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .details {
+            margin-top: 30px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* New Form Styles */
+        .rsvp-form {
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .question {
+            text-align: center;
+            font-weight: bold;
+            margin: 15px 0 10px;
+            color: #d63384;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            background: #f8f9fa;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            transition: 0.3s;
+        }
+
+        .radio-group input {
+            display: none;
+        }
+
+        .radio-group input:checked + label {
+            background-color: #d63384;
+            color: white;
+            border-color: #d63384;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            background-color: #d63384;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .confirm-btn:hover {
+            background-color: #b0236a;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 450px) {
+            .card { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+            .card::before, .card::after { font-size: 14px; letter-spacing: 5px; }
+            .side-flowers-left, .side-flowers-right { display: none; } /* Clean up mobile look */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="side-flowers-left">🌸 🌼 🌸 🌼</div>
+        <div class="side-flowers-right">🌸 🌼 🌸 🌼</div>
+        
+        <h1>Birthday Invitation</h1>
+        
+        <p>I invitated all to my birthday party. Please input details below.</p>
+        
+        <div class="details">
+            <p>📅 Date: February 1, 2026</p>
+            <p>⏰ Time: 5:00 PM</p>
+        </div>
+        
+        <form id="rsvp-form" class="rsvp-form">
+            <input type="text" name="user_name" id="user_name" placeholder="Your Name" required>
+            <textarea name="user_message" id="user_message" rows="3" placeholder="Description/Message"></textarea>
+            
+            <p class="question">Will you come to my birthday party?</p>
+            <div class="radio-group">
+                <input type="radio" id="yes" name="attendance" value="Yes" checked>
+                <label for="yes">Yes</label>
+                
+                <input type="radio" id="no" name="attendance" value="No">
+                <label for="no">No</label>
+            </div>
+
+            <button type="submit" class="confirm-btn">Confirm</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('rsvp-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const btn = document.querySelector('.confirm-btn');
+            btn.innerText = 'Sending...';
+
+            // Parameters must match the {{variables}} in your EmailJS template
+            const templateParams = {
+                from_name: document.getElementById('user_name').value,
+                message: document.getElementById('user_message').value,
+                attending: document.querySelector('input[name="attendance"]:checked').value
+            };
+
+            emailjs.send('service_n0rlufv', 'template_jvmtszo', templateParams)
+                .then(function() {
+                    alert('Thank you! Your response has been sent.');
+                    btn.innerText = 'Confirm Attendance';
+                    document.getElementById('rsvp-form').reset();
+                }, function(error) {
+                    alert('Oops! Something went wrong. Please try again.');
+                    btn.innerText = 'Confirm Attendance';
+                    console.log('FAILED...', error);
+                });
+        });
+    </script>
+</body>
+</html>

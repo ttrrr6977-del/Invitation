@@ -98,6 +98,22 @@
             color: #333;
         }
 
+        /* Countdown Styles */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #d63384;
+            font-size: 0.9rem;
+        }
+        .time-unit {
+            background: #fff0f5;
+            padding: 5px 10px;
+            border-radius: 5px;
+            min-width: 45px;
+        }
+
         /* New Form Styles */
         .rsvp-form {
             margin-top: 25px;
@@ -169,7 +185,7 @@
             .card { padding: 30px 20px; }
             h1 { font-size: 1.8rem; }
             .card::before, .card::after { font-size: 14px; letter-spacing: 5px; }
-            .side-flowers-left, .side-flowers-right { display: none; } /* Clean up mobile look */
+            .side-flowers-left, .side-flowers-right { display: none; }
         }
     </style>
 </head>
@@ -181,11 +197,18 @@
         
         <h1>Birthday Invitation</h1>
         
-        <p>Welcome to my birthday party. Please enter details below.</p>
+        <p> Welcome all to my birthday party. Please enter details below.</p>
         
         <div class="details">
             <p>📅 Date: February 1, 2026</p>
             <p>⏰ Time: 6:00 PM</p>
+            
+            <div id="countdown">
+                <div class="time-unit"><span id="days">0</span>d</div>
+                <div class="time-unit"><span id="hours">0</span>h</div>
+                <div class="time-unit"><span id="minutes">0</span>m</div>
+                <div class="time-unit"><span id="seconds">0</span>s</div>
+            </div>
         </div>
         
         <form id="rsvp-form" class="rsvp-form">
@@ -206,13 +229,36 @@
     </div>
 
     <script>
+        // --- Countdown Timer Script ---
+        const eventDate = new Date("February 1, 2026 18:00:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d;
+            document.getElementById("hours").innerText = h;
+            document.getElementById("minutes").innerText = m;
+            document.getElementById("seconds").innerText = s;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "The party has started!";
+            }
+        }, 1000);
+
+        // --- RSVP Form Script ---
         document.getElementById('rsvp-form').addEventListener('submit', function(event) {
             event.preventDefault();
             
             const btn = document.querySelector('.confirm-btn');
             btn.innerText = 'Sending...';
 
-            // Parameters must match the {{variables}} in your EmailJS template
             const templateParams = {
                 from_name: document.getElementById('user_name').value,
                 message: document.getElementById('user_message').value,
@@ -222,11 +268,11 @@
             emailjs.send('service_n0rlufv', 'template_jvmtszo', templateParams)
                 .then(function() {
                     alert('Thank you! Your response has been sent.');
-                    btn.innerText = 'Confirm Attendance';
+                    btn.innerText = 'Confirm';
                     document.getElementById('rsvp-form').reset();
                 }, function(error) {
                     alert('Oops! Something went wrong. Please try again.');
-                    btn.innerText = 'Confirm Attendance';
+                    btn.innerText = 'Confirm';
                     console.log('FAILED...', error);
                 });
         });
